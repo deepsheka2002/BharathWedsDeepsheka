@@ -1,12 +1,15 @@
 
 // =====================================
 // WEDDING INVITATION - JAVASCRIPT
+// BHARATH & DEEPSHEKA
 // =====================================
 
 // 1. WEDDING COUNTDOWN TIMER
-// Change this date to your actual wedding date.
+// Engagement: 10 March 2027
+// Wedding: 11 March 2027
 // Format: YYYY-MM-DDTHH:MM:SS
-const weddingDate = new Date("2027-02-14T10:30:00+05:30").getTime();
+
+const weddingDate = new Date("2027-03-11T10:30:00+05:30").getTime();
 
 function updateCountdown() {
   const now = Date.now();
