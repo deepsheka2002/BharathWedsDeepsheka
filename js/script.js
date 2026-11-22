@@ -211,6 +211,20 @@ slideViewport.addEventListener(
   "wheel",
   function (event) {
     if (Math.abs(event.deltaY) < 24 && Math.abs(event.deltaX) < 24) return;
+
+    const scrollableSlide = event.target.closest(".slide-scrollable");
+    if (
+      scrollableSlide &&
+      Math.abs(event.deltaY) > Math.abs(event.deltaX) &&
+      scrollableSlide.scrollHeight > scrollableSlide.clientHeight
+    ) {
+      const atTop = scrollableSlide.scrollTop <= 0;
+      const atBottom =
+        scrollableSlide.scrollTop + scrollableSlide.clientHeight >=
+        scrollableSlide.scrollHeight - 1;
+      if ((event.deltaY < 0 && !atTop) || (event.deltaY > 0 && !atBottom)) return;
+    }
+
     event.preventDefault();
     if (slideGestureLocked) return;
 

@@ -1770,6 +1770,15 @@ body {
   overflow: hidden;
 }
 
+.slide-track > .slide-scrollable {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(213, 181, 109, 0.7) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
 .slide-track > .section-padding {
   display: flex;
   align-items: center;
