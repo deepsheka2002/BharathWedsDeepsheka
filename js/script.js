@@ -43,6 +43,8 @@ function openWeddingInvitation() {
   window.setTimeout(function () {
     envelopeOpening.setAttribute("aria-hidden", "true");
     document.body.classList.remove("envelope-active");
+    goToSlideFromHash("#home");
+    window.history.replaceState(null, "", "#home");
   }, 2900);
 }
 
