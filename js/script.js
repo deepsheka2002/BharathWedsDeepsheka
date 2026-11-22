@@ -152,22 +152,43 @@ const slideViewport = document.getElementById("slideViewport");
 const slideTrack = document.getElementById("slideTrack");
 const slideHintText = document.getElementById("slideHintText");
 const slides = Array.from(slideTrack.children);
+const slideTransitionEffects = ["push", "dissolve", "wipe", "push", "cover", "fade", "dissolve", "wipe", "cover"];
 let activeSlideIndex = 0;
 let slideGestureStart = null;
 let slideGestureLocked = false;
+let hasInitializedSlides = false;
 
 function goToSlide(index) {
-  activeSlideIndex = Math.max(0, Math.min(index, slides.length - 1));
+  const nextIndex = Math.max(0, Math.min(index, slides.length - 1));
+  if (nextIndex === activeSlideIndex && hasInitializedSlides) return;
+
+  slides.forEach(function (slide) {
+    slide.classList.remove(
+      "slide-transition-fade",
+      "slide-transition-dissolve",
+      "slide-transition-wipe",
+      "slide-transition-push",
+      "slide-transition-cover"
+    );
+  });
+
+  if (hasInitializedSlides) {
+    slides[nextIndex].classList.add(`slide-transition-${slideTransitionEffects[nextIndex]}`);
+  }
+
+  activeSlideIndex = nextIndex;
   slideTrack.style.transform = `translate3d(-${activeSlideIndex * 100}vw, 0, 0)`;
   slideHintText.textContent = activeSlideIndex === slides.length - 1
     ? "Swipe to go back"
-    : "Swipe to continue";
+    : "Tap or swipe to continue";
 
   slides.forEach(function (slide, slideIndex) {
     const inactive = slideIndex !== activeSlideIndex;
+    slide.classList.toggle("slide-active", !inactive);
     slide.setAttribute("aria-hidden", String(inactive));
     slide.inert = inactive;
   });
+  hasInitializedSlides = true;
 }
 
 function goToSlideFromHash(hash) {
@@ -183,7 +204,9 @@ function goToSlideFromHash(hash) {
   return false;
 }
 
-goToSlideFromHash(window.location.hash);
+if (!goToSlideFromHash(window.location.hash)) {
+  goToSlide(0);
+}
 
 document.querySelectorAll('a[href^="#"]').forEach(function (link) {
   link.addEventListener("click", function (event) {
@@ -244,7 +267,11 @@ slideViewport.addEventListener(
   "touchstart",
   function (event) {
     const touch = event.changedTouches[0];
-    slideGestureStart = { x: touch.clientX, y: touch.clientY };
+    slideGestureStart = {
+      x: touch.clientX,
+      y: touch.clientY,
+      target: event.target
+    };
   },
   { passive: true }
 );
@@ -257,10 +284,20 @@ slideViewport.addEventListener(
     const touch = event.changedTouches[0];
     const deltaX = touch.clientX - slideGestureStart.x;
     const deltaY = touch.clientY - slideGestureStart.y;
+    const startTarget = slideGestureStart.target;
     slideGestureStart = null;
 
-    if (Math.abs(deltaX) < 55 || Math.abs(deltaX) < Math.abs(deltaY)) return;
-    goToSlide(activeSlideIndex + (deltaX < 0 ? 1 : -1));
+    if (Math.abs(deltaX) >= 55 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      goToSlide(activeSlideIndex + (deltaX < 0 ? 1 : -1));
+      return;
+    }
+
+    if (Math.abs(deltaX) > 18 || Math.abs(deltaY) > 18) return;
+    if (startTarget instanceof Element && startTarget.closest("a, button, input, select, textarea, iframe")) {
+      return;
+    }
+
+    goToSlide(activeSlideIndex + 1);
   },
   { passive: true }
 );

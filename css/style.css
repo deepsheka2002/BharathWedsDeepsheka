@@ -1770,6 +1770,105 @@ body {
   overflow: hidden;
 }
 
+.slide-track > .slide-active > .container {
+  animation: slideContentEnter 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.slide-track > .slide-active .detail-card,
+.slide-track > .slide-active .event-card,
+.slide-track > .slide-active .story-image,
+.slide-track > .slide-active .gallery-grid img {
+  animation: slideItemEnter 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.slide-track > #details.slide-active .row > div:nth-child(2) .detail-card,
+.slide-track > #events.slide-active .row > div:nth-child(2) .event-card,
+.slide-track > #gallery.slide-active img:nth-child(2) {
+  animation-delay: 100ms;
+}
+
+.slide-track > #details.slide-active .row > div:nth-child(3) .detail-card,
+.slide-track > #events.slide-active .row > div:nth-child(3) .event-card,
+.slide-track > #gallery.slide-active img:nth-child(3) {
+  animation-delay: 200ms;
+}
+
+.slide-track > #events.slide-active .row > div:nth-child(4) .event-card,
+.slide-track > #gallery.slide-active img:nth-child(4) {
+  animation-delay: 300ms;
+}
+
+.slide-track > #gallery.slide-active img:nth-child(5) {
+  animation-delay: 400ms;
+}
+
+.slide-track > #gallery.slide-active img:nth-child(6) {
+  animation-delay: 500ms;
+}
+
+@keyframes slideContentEnter {
+  from { opacity: 0.55; transform: translateY(18px) scale(0.99); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes slideItemEnter {
+  from { opacity: 0.3; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.slide-track > .slide-transition-fade {
+  animation: slideFade 850ms ease both;
+}
+
+.slide-track > .slide-transition-dissolve {
+  animation: slideDissolve 950ms ease both;
+}
+
+.slide-track > .slide-transition-wipe {
+  animation: slideWipe 850ms cubic-bezier(0.7, 0, 0.2, 1) both;
+}
+
+.slide-track > .slide-transition-push {
+  animation: slidePush 750ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.slide-track > .slide-transition-cover {
+  animation: slideCover 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.slide-track > .slide-transition-fade > .container,
+.slide-track > .slide-transition-dissolve > .container,
+.slide-track > .slide-transition-wipe > .container,
+.slide-track > .slide-transition-push > .container,
+.slide-track > .slide-transition-cover > .container {
+  animation: none;
+}
+
+@keyframes slideFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDissolve {
+  from { opacity: 0; filter: blur(14px); transform: scale(1.025); }
+  to { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+
+@keyframes slideWipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes slidePush {
+  from { opacity: 0.35; transform: translateX(48px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideCover {
+  from { opacity: 0.25; clip-path: inset(0 0 100% 0); }
+  to { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+
 .slide-track > .slide-scrollable {
   overflow-x: hidden;
   overflow-y: auto;
@@ -1798,6 +1897,10 @@ body {
 
 .slide-track > .footer-section {
   padding: 45px 20px;
+}
+
+.slide-track > .slide-scrollable {
+  padding-bottom: 82px;
 }
 
 .slide-track > #invitation .invitation-grand-card {
@@ -1961,6 +2064,13 @@ body {
 
   .slide-track > .footer-section {
     padding: 40px 14px;
+  }
+}
+
+@media (max-width: 767px) and (max-height: 700px) {
+  .slide-track > #details,
+  .slide-track > #events {
+    padding-bottom: 100px;
   }
 }
 
