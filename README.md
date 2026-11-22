@@ -1,5 +1,5 @@
 
-# Wedding Invitation Website 💍
+# Wedding-Invitation Website 💍
 
 A responsive digital wedding invitation built using HTML, CSS, Bootstrap 5 and JavaScript.
 
