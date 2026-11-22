@@ -47,47 +47,7 @@ updateCountdown();
 setInterval(updateCountdown, 1000);
 
 
-// 2. RSVP FORM
-// Demo interaction only.
-// This does not store or send responses to a server.
-
-const rsvpForm = document.getElementById("rsvpForm");
-const rsvpMessage = document.getElementById("rsvpMessage");
-
-rsvpForm.addEventListener("submit", function (event) {
-  event.preventDefault();
-
-  if (!rsvpForm.checkValidity()) {
-    rsvpForm.reportValidity();
-    return;
-  }
-
-  const guestName = document.getElementById("guestName").value.trim();
-  const guestCount = document.getElementById("guestCount").value;
-  const attendance = document.getElementById("attendance").value;
-
-  if (!guestName || !guestCount || !attendance) {
-    rsvpMessage.textContent = "Please complete all fields.";
-    rsvpMessage.style.color = "#b54747";
-    return;
-  }
-
-  rsvpMessage.textContent =
-    `Thank you, ${guestName}! Your response (${attendance}) has been recorded in this demo.`;
-
-  rsvpMessage.style.color = "#92703e";
-
-  console.log("Demo RSVP:", {
-    guestName,
-    guestCount,
-    attendance
-  });
-
-  rsvpForm.reset();
-});
-
-
-// 3. WEDDING MUSIC TOGGLE
+// 2. WEDDING MUSIC TOGGLE
 // Add your own music file at assets/music/wedding-music.mp3.
 // Music will only play after the visitor clicks the button.
 
