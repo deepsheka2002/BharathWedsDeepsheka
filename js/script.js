@@ -4,6 +4,52 @@
 // BHARATH & DEEPSHEKA
 // =====================================
 
+// 0. ENVELOPE OPENING ANIMATION
+const envelopeOpening = document.getElementById("envelopeOpening");
+const openInvitation = document.getElementById("openInvitation");
+const invitationEnvelope = document.getElementById("invitationEnvelope");
+const floatingPetals = document.getElementById("floatingPetals");
+let invitationOpened = false;
+
+document.body.classList.add("envelope-active");
+
+function createOpeningPetals() {
+  if (!floatingPetals) return;
+
+  for (let index = 0; index < 28; index += 1) {
+    const petal = document.createElement("span");
+    petal.className = index % 5 === 0 ? "petal petal-gold" : "petal";
+    petal.style.setProperty("--petal-left", `${Math.random() * 100}%`);
+    petal.style.setProperty("--petal-delay", `${Math.random() * 1.8}s`);
+    petal.style.setProperty("--petal-duration", `${3.2 + Math.random() * 2.8}s`);
+    petal.style.setProperty("--petal-drift", `${-90 + Math.random() * 180}px`);
+    floatingPetals.appendChild(petal);
+  }
+}
+
+createOpeningPetals();
+
+function openWeddingInvitation() {
+  if (invitationOpened) return;
+  invitationOpened = true;
+
+  invitationEnvelope.classList.add("opening");
+  openInvitation.classList.add("hidden");
+
+  window.setTimeout(function () {
+    envelopeOpening.classList.add("opened");
+  }, 2100);
+
+  window.setTimeout(function () {
+    envelopeOpening.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("envelope-active");
+  }, 2900);
+}
+
+openInvitation.addEventListener("click", openWeddingInvitation);
+
+window.setTimeout(openWeddingInvitation, 4500);
+
 // 1. WEDDING COUNTDOWN TIMER
 // Engagement: 10 March 2027
 // Wedding: 11 March 2027
@@ -98,7 +144,111 @@ navLinks.forEach(function (link) {
 // 5. REVEAL SECTIONS WHEN THEY ENTER THE VIEWPORT
 
 const revealElements = document.querySelectorAll(
+  ".section-padding > .container, .countdown-section > .container, .footer-section > .container, " +
   ".detail-card, .event-card, .story-image, .gallery-grid img"
+);
+
+const slideViewport = document.getElementById("slideViewport");
+const slideTrack = document.getElementById("slideTrack");
+const slideHintText = document.getElementById("slideHintText");
+const slides = Array.from(slideTrack.children);
+let activeSlideIndex = 0;
+let slideGestureStart = null;
+let slideGestureLocked = false;
+
+function goToSlide(index) {
+  activeSlideIndex = Math.max(0, Math.min(index, slides.length - 1));
+  slideTrack.style.transform = `translate3d(-${activeSlideIndex * 100}vw, 0, 0)`;
+  slideHintText.textContent = activeSlideIndex === slides.length - 1
+    ? "Swipe to go back"
+    : "Swipe to continue";
+
+  slides.forEach(function (slide, slideIndex) {
+    const inactive = slideIndex !== activeSlideIndex;
+    slide.setAttribute("aria-hidden", String(inactive));
+    slide.inert = inactive;
+  });
+}
+
+function goToSlideFromHash(hash) {
+  const targetId = hash.replace(/^#/, "");
+  const targetIndex = slides.findIndex(function (slide) {
+    return slide.id === targetId;
+  });
+
+  if (targetIndex !== -1) {
+    goToSlide(targetIndex);
+    return true;
+  }
+  return false;
+}
+
+goToSlideFromHash(window.location.hash);
+
+document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+  link.addEventListener("click", function (event) {
+    const targetHash = link.getAttribute("href");
+    if (targetHash && goToSlideFromHash(targetHash)) {
+      event.preventDefault();
+      window.history.replaceState(null, "", targetHash);
+    }
+  });
+});
+
+document.addEventListener("keydown", function (event) {
+  if (event.altKey || event.ctrlKey || event.metaKey) return;
+
+  if (event.key === "ArrowRight" || event.key === "ArrowDown" || event.key === "PageDown") {
+    event.preventDefault();
+    goToSlide(activeSlideIndex + 1);
+  } else if (event.key === "ArrowLeft" || event.key === "ArrowUp" || event.key === "PageUp") {
+    event.preventDefault();
+    goToSlide(activeSlideIndex - 1);
+  }
+});
+
+slideViewport.addEventListener(
+  "wheel",
+  function (event) {
+    if (Math.abs(event.deltaY) < 24 && Math.abs(event.deltaX) < 24) return;
+    event.preventDefault();
+    if (slideGestureLocked) return;
+
+    slideGestureLocked = true;
+    const direction = Math.abs(event.deltaX) > Math.abs(event.deltaY)
+      ? event.deltaX
+      : event.deltaY;
+    goToSlide(activeSlideIndex + (direction > 0 ? 1 : -1));
+    window.setTimeout(function () {
+      slideGestureLocked = false;
+    }, 850);
+  },
+  { passive: false }
+);
+
+slideViewport.addEventListener(
+  "touchstart",
+  function (event) {
+    const touch = event.changedTouches[0];
+    slideGestureStart = { x: touch.clientX, y: touch.clientY };
+  },
+  { passive: true }
+);
+
+slideViewport.addEventListener(
+  "touchend",
+  function (event) {
+    if (!slideGestureStart) return;
+
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - slideGestureStart.x;
+    const deltaY = touch.clientY - slideGestureStart.y;
+    slideGestureStart = null;
+
+    if (Math.abs(deltaX) < 55 || Math.abs(deltaX) < Math.abs(deltaY)) return;
+    goToSlide(activeSlideIndex + (deltaX < 0 ? 1 : -1));
+  },
+  { passive: true }
 );
 
 if ("IntersectionObserver" in window) {
