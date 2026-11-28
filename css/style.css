@@ -799,6 +799,9 @@ body.envelope-active {
   font-size: 16px;
   letter-spacing: 4px;
   text-transform: uppercase;
+  filter: blur(7px);
+  opacity: 0.55;
+  transition: filter 0.8s ease, opacity 0.8s ease;
 }
 
 .envelope {
@@ -856,6 +859,19 @@ body.envelope-active {
   font-size: 31px;
   font-weight: 400;
   line-height: 1;
+  filter: blur(7px);
+  opacity: 0.65;
+  transition: filter 0.8s ease, opacity 0.8s ease;
+}
+
+.opening-content:has(.envelope.opening) .opening-label {
+  filter: blur(0);
+  opacity: 1;
+}
+
+.envelope.opening .invitation-card h2 {
+  filter: blur(0);
+  opacity: 1;
 }
 
 .invitation-card h2 span {
@@ -1447,6 +1463,67 @@ body.envelope-active {
   color: white;
 }
 
+.countdown-section {
+  background:
+    linear-gradient(rgba(7, 29, 74, 0.68), rgba(7, 29, 74, 0.78)),
+    url("../assets/images/couple.jpeg?v=20261128") center 38% / cover no-repeat;
+}
+
+.countdown-section .container {
+  max-width: 620px;
+}
+
+.countdown-section .section-label {
+  margin-bottom: 12px;
+  font-size: clamp(9px, 1.6vw, 12px);
+  letter-spacing: 5px;
+}
+
+.countdown-section .section-title {
+  margin-bottom: 0;
+  font-size: clamp(38px, 7.5vw, 72px);
+  line-height: 0.96;
+  letter-spacing: 0;
+}
+
+.countdown-section .countdown-wrapper {
+  max-width: 490px;
+  margin: 32px auto 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.countdown-section .count-box {
+  width: 100%;
+  height: clamp(118px, 17vh, 150px);
+  border: 1px solid rgba(234, 214, 157, 0.95);
+  border-radius: 0;
+  background: rgba(7, 29, 74, 0.28);
+  box-shadow: inset 0 0 22px rgba(255, 255, 255, 0.025);
+}
+
+.countdown-section .count-box span {
+  font-size: clamp(44px, 8vw, 64px);
+  font-style: italic;
+  letter-spacing: 2px;
+}
+
+.countdown-section .count-box small {
+  margin-top: 10px;
+  font-size: clamp(10px, 1.8vw, 14px);
+  letter-spacing: 4px;
+}
+
+.countdown-section .countdown-message {
+  margin: 24px auto 0;
+  max-width: 560px;
+  color: white;
+  font-family: var(--heading);
+  font-size: clamp(20px, 3.5vw, 34px);
+  line-height: 1.25;
+}
+
 .countdown-section .section-title,
 .events-section .section-title,
 .location-section .section-title,
@@ -1475,11 +1552,165 @@ body.envelope-active {
   background: #fffdf8;
 }
 
+.details-section {
+  position: relative;
+  isolation: isolate;
+  background:
+    linear-gradient(rgba(255, 253, 248, 0.78), rgba(255, 253, 248, 0.78)),
+    url("../assets/images/Reception.JPG?v=20261128") center 55% / cover no-repeat;
+}
+
+.details-section .section-title {
+  text-shadow: 0 2px 14px rgba(255, 253, 248, 0.95);
+}
+
 .detail-card,
 .event-card {
   border: 1px solid rgba(213, 181, 109, 0.58);
   background: rgba(255, 255, 255, 0.96);
   box-shadow: 0 12px 35px rgba(7, 29, 74, 0.08);
+}
+
+.engagement-detail-card {
+  min-height: 220px;
+  background:
+    linear-gradient(rgba(7, 29, 74, 0.62), rgba(7, 29, 74, 0.72)),
+    url("../assets/images/engagement-ring.JPG") center 55% / cover no-repeat;
+  border-color: rgba(234, 214, 157, 0.9);
+  color: white;
+}
+
+.engagement-detail-content {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 12px;
+  text-align: center;
+}
+
+.engagement-detail-card .engagement-detail-content i,
+.engagement-detail-card .engagement-detail-content h3,
+.engagement-detail-card .engagement-detail-content p {
+  color: white;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.engagement-detail-card .engagement-detail-content i {
+  display: block;
+  font-size: 35px;
+  line-height: 1;
+}
+
+.engagement-detail-card .engagement-detail-content h3,
+.marriage-detail-card .marriage-detail-content h3,
+.reception-detail-card .reception-detail-content h3 {
+  margin: 16px 0 8px;
+  font-size: 34px;
+  line-height: 1.1;
+}
+
+.engagement-detail-card .engagement-detail-content p,
+.marriage-detail-card .marriage-detail-content p,
+.reception-detail-card .reception-detail-content p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.reception-detail-card {
+  min-height: 220px;
+  background:
+    linear-gradient(rgba(7, 29, 74, 0.62), rgba(7, 29, 74, 0.72)),
+    url("../assets/images/Reception.JPG?v=20261128") center 55% / cover no-repeat;
+  border-color: rgba(234, 214, 157, 0.9);
+  color: white;
+}
+
+.reception-detail-content {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 12px;
+  text-align: center;
+}
+
+.reception-detail-card .reception-detail-content i,
+.reception-detail-card .reception-detail-content h3,
+.reception-detail-card .reception-detail-content p {
+  color: white;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.reception-detail-card .reception-detail-content i {
+  display: block;
+  font-size: 35px;
+  line-height: 1;
+}
+
+.reception-detail-card .reception-detail-content h3 {
+  margin: 16px 0 8px;
+  font-size: 34px;
+  line-height: 1.1;
+}
+
+.reception-detail-card .reception-detail-content p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.marriage-detail-card {
+  min-height: 220px;
+  background:
+    linear-gradient(rgba(7, 29, 74, 0.62), rgba(7, 29, 74, 0.72)),
+    url("../assets/images/magalsutra.jpeg?v=20261128") center 55% / cover no-repeat;
+  border-color: rgba(234, 214, 157, 0.9);
+  color: white;
+}
+
+.marriage-detail-content {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 12px;
+  text-align: center;
+}
+
+.marriage-detail-card .marriage-detail-content i,
+.marriage-detail-card .marriage-detail-content h3,
+.marriage-detail-card .marriage-detail-content p {
+  color: white;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.marriage-detail-card .marriage-detail-content i {
+  display: block;
+  font-size: 35px;
+  line-height: 1;
+}
+
+.marriage-detail-card .marriage-detail-content h3 {
+  margin: 16px 0 8px;
+  font-size: 34px;
+  line-height: 1.1;
+}
+
+.marriage-detail-card .marriage-detail-content p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.8;
 }
 
 .event-card {
@@ -2037,6 +2268,18 @@ body {
     font-size: 11px;
   }
 
+  .slide-track > #details .engagement-detail-card h3,
+  .slide-track > #details .marriage-detail-card h3,
+  .slide-track > #details .reception-detail-card h3 {
+    font-size: 28px;
+  }
+
+  .slide-track > #details .engagement-detail-card p,
+  .slide-track > #details .marriage-detail-card p,
+  .slide-track > #details .reception-detail-card p {
+    font-size: 15px;
+  }
+
   .slide-track > #events .event-card {
     padding: 10px 8px;
   }
@@ -2077,6 +2320,43 @@ body {
 
   .slide-track > .countdown-section {
     padding: 40px 14px;
+  }
+
+  .countdown-section .container {
+    max-width: 390px;
+  }
+
+  .countdown-section .section-label {
+    margin-bottom: 10px;
+    font-size: 9px;
+  }
+
+  .countdown-section .section-title {
+    font-size: clamp(38px, 11vw, 50px);
+  }
+
+  .countdown-section .countdown-wrapper {
+    max-width: 360px;
+    margin-top: 22px;
+    gap: 6px;
+  }
+
+  .countdown-section .count-box {
+    height: clamp(105px, 18vh, 130px);
+  }
+
+  .countdown-section .count-box span {
+    font-size: clamp(38px, 10vw, 50px);
+  }
+
+  .countdown-section .count-box small {
+    font-size: 9px;
+    letter-spacing: 3px;
+  }
+
+  .countdown-section .countdown-message {
+    margin-top: 18px;
+    font-size: 18px;
   }
 
   .slide-track > .footer-section {
